@@ -263,7 +263,7 @@ export default function ModernLandingPage() {
                 contributors. What sets our platform apart is its comprehensive support system – from initial ideation through to market 
                 entry. Whether you&apos;re looking to create a tech startup, establish a cultural exchange business, or develop sustainable 
                 solutions for traditional industries, Virtual Ethiopia provides the digital infrastructure, knowledge resources, and human 
-                capital necessary for success. We wish to build success stories include companies that have grown from simple collaborative 
+                capital necessary for success. We wish to build success stories that include companies that have grown from simple collaborative 
                 projects to established enterprises operating across multiple countries, demonstrating the tangible power of our virtual 
                 incubation model.
               </p>
