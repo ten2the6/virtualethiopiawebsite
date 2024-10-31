@@ -1,38 +1,81 @@
-TEST ##2
+## 🌟 How to Contribute to Virtual Ethiopia Website
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+We welcome contributions! Here’s a beginner-friendly guide on how to fork the repository, make changes, and submit a pull request. Let’s get started! 🎉
 
-## Getting Started
+---
 
-First, run the development server:
+### Step 1: Fork the Repository 🍴
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Click the “Fork” button** at the top-right of this page. This will copy this repository to your GitHub account.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Step 2: Clone Your Forked Repository 💻
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. In your GitHub account, locate the forked repository and **copy the clone URL**.
 
-## Learn More
+   - **Using HTTP**:
+     ```bash
+     git clone https://github.com/your-username/virtualethiopiawebsite.git
+     ```
+   - **Using SSH**:
+     ```bash
+     git clone git@github.com:your-username/virtualethiopiawebsite.git
+     ```
 
-To learn more about Next.js, take a look at the following resources:
+3. Navigate into the project directory:
+   ```bash
+   cd virtualethiopiawebsite
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Step 3: Create a New Branch 🌿
 
-## Deploy on Vercel
+4. To keep things organized, **create a new branch** for your work:
+   ```bash
+   git checkout -b your-branch-name
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> 💡 **Tip**: Name your branch after the feature or fix you're working on, like `feature/add-login` or `bugfix/fix-typo`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+### Step 4: Make Changes and Commit 📝
+
+5. Make your desired changes or add your contribution (like a new feature, bug fix, or documentation update).
+6. After making changes, **stage and commit them**:
+   ```bash
+   git add .
+   git commit -m "Description of your changes"
+   ```
+
+> 📌 **Remember**: Write clear, concise commit messages so others can easily understand your changes!
+
+---
+
+### Step 5: Push Changes to GitHub 📤
+
+7. Push your branch to your forked repository:
+   ```bash
+   git push origin your-branch-name
+   ```
+
+---
+
+### Step 6: Create a Pull Request 🚀
+
+8. Go to the original repository on GitHub: [https://github.com/your-username/virtualethiopiawebsite.git](https://github.com/your-username/virtualethiopiawebsite.git).
+9. Look for the **“Compare & pull request”** button and click it.
+10. Write a clear description of your changes, then submit the pull request.
+
+> 🌈 **Bonus**: Tag any issues you’re solving by writing `Fixes #issue-number` in your PR description!
+
+## 🔗 Additional Setup Guides
+
+Get your environment ready with these quick setup guides:
+
+- **[🛠️ NVM and Node.js Setup](docs/NodeJs.md)**: Follow this guide to easily install NVM and the correct Node.js version required for this project.
+- **[🚀 Next.js Application Setup](docs/NextJs.md)**: Start developing and running the Next.js application with this quick setup guide.
+
+These links provide a direct path to setting up everything you need for the Virtual Ethiopia Website project!
