@@ -22,6 +22,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_BRANCH: ${{ github.ref_name }}
           GITHUB_COMMIT: ${{ github.sha }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           if [ "$GITHUB_EVENT" = "fork" ]; then
             MESSAGE="🚀 *New Fork Created*\nUser: $GITHUB_ACTOR\nAction: Fork created by $GITHUB_ACTOR!"
@@ -34,7 +35,7 @@ jobs:
               MESSAGE="❌ *Pull Request Closed*\nUser: $GITHUB_ACTOR\nAction: Pull request closed without merging\n[Link to PR](${{ github.event.pull_request.html_url }})"
             fi
           elif [ "$GITHUB_EVENT" = "push" ]; then
-            MESSAGE="🚀 *Code Pushed to Branch*\nUser: $GITHUB_ACTOR\nBranch: $GITHUB_BRANCH\nCommit: $GITHUB_COMMIT\nAction: New code pushed by $GITHUB_ACTOR"
+            MESSAGE="🚀 *Code Pushed to Branch*\nUser: $GITHUB_ACTOR\nBranch: $GITHUB_BRANCH\nCommit: $GITHUB_COMMIT\nCommit Message: $COMMIT_MESSAGE\nAction: New code pushed by $GITHUB_ACTOR"
           elif [ "$GITHUB_EVENT" = "repository_dispatch" ] && [ "$DEPLOYMENT_STATE" = "SUCCEEDED" ]; then
             MESSAGE="🎉 *Vercel Deployment Succeeded*\nAction: Deployment was successful!"
           elif [ "$GITHUB_EVENT" = "repository_dispatch" ] && [ "$DEPLOYMENT_STATE" = "FAILED" ]; then
