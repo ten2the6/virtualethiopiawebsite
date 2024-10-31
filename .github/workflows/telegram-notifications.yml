@@ -31,11 +31,15 @@ jobs:
               MESSAGE="❌ Pull request closed by ${{ github.actor }}: ${{ github.event.pull_request.html_url }}"
             fi
           elif [ "$GITHUB_EVENT" = "push" ]; then
-            MESSAGE="🚀 New code pushed to main by ${{ github.actor }}."
+            MESSAGE="🚀 New code pushed to branch ${{ github.ref_name }} by ${{ github.actor }}."
+          elif [ "$GITHUB_EVENT" = "repository_dispatch" ] && [ "$DEPLOYMENT_STATE" = "SUCCEEDED" ]; then
+            MESSAGE="🎉 Vercel deployment succeeded for the latest update!"
+          elif [ "$GITHUB_EVENT" = "repository_dispatch" ] && [ "$DEPLOYMENT_STATE" = "FAILED" ]; then
+            MESSAGE="⚠️ Vercel deployment failed. Please check the deployment logs."
           else
             MESSAGE="ℹ️ Event not recognized for notification."
           fi
 
           curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
-          -d "chat_id=$TELEGRAM_CHAT_ID" \
-          -d "text=$MESSAGE"
+               -H "Content-Type: application/json" \
+               -d "{\"chat_id\": \"$TELEGRAM_CHAT_ID\", \"text\": \"$MESSAGE\"}"
