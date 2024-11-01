@@ -1,5 +1,6 @@
 name: Telegram Notifications
 
+# Trigger workflow on specific events
 on:
   fork:
     types: [created]
@@ -15,8 +16,8 @@ jobs:
     steps:
       - name: Send Telegram Notification
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }} # Securely access Telegram Bot token
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }} # Securely access Telegram Chat ID
           GITHUB_EVENT: ${{ github.event_name }}
           PR_ACTION: ${{ github.event.action }}
           GITHUB_ACTOR: ${{ github.actor }}
@@ -24,6 +25,16 @@ jobs:
           GITHUB_COMMIT: ${{ github.sha }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
+          # Debugging information to check variable values
+          echo "Event Type: $GITHUB_EVENT"
+          echo "Actor: $GITHUB_ACTOR"
+          echo "Branch: $GITHUB_BRANCH"
+          echo "Commit SHA: $GITHUB_COMMIT"
+          echo "Commit Message: $COMMIT_MESSAGE"
+          echo "Bot Token Length: ${#TELEGRAM_BOT_TOKEN}"  # Token length to confirm it's set
+          echo "Chat ID: $TELEGRAM_CHAT_ID"
+
+          # Determine message content based on the event type
           if [ "$GITHUB_EVENT" = "fork" ]; then
             MESSAGE="🚀 *New Fork Created*\nUser: $GITHUB_ACTOR\nAction: Fork created by $GITHUB_ACTOR!"
           elif [ "$GITHUB_EVENT" = "pull_request" ] && [ "$PR_ACTION" = "opened" ]; then
@@ -44,6 +55,10 @@ jobs:
             MESSAGE="ℹ️ *Event Not Recognized*\nUser: $GITHUB_ACTOR\nAction: No recognized action taken."
           fi
 
+          # Log the final message for debugging purposes
+          echo "Formatted Message: $MESSAGE"
+
+          # Send the message to Telegram
           curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
                -H "Content-Type: application/json" \
                -d "{\"chat_id\": \"$TELEGRAM_CHAT_ID\", \"text\": \"$MESSAGE\", \"parse_mode\": \"Markdown\"}"
