@@ -1,6 +1,5 @@
 name: Telegram Notifications
 
-# Trigger workflow on specific events
 on:
   fork:
     types: [created]
@@ -16,49 +15,31 @@ jobs:
     steps:
       - name: Send Telegram Notification
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }} # Securely access Telegram Bot token
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }} # Securely access Telegram Chat ID
+          TELEGRAM_BOT_TOKEN: '8071164350:AAE6kavzLpQ5sO9DN1IGkjutnIMADhQBPc0'
+          TELEGRAM_CHAT_ID: '582130596'
           GITHUB_EVENT: ${{ github.event_name }}
           PR_ACTION: ${{ github.event.action }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_BRANCH: ${{ github.ref_name }}
-          GITHUB_COMMIT: ${{ github.sha }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
-          # Debugging information to check variable values
-          echo "Event Type: $GITHUB_EVENT"
-          echo "Actor: $GITHUB_ACTOR"
-          echo "Branch: $GITHUB_BRANCH"
-          echo "Commit SHA: $GITHUB_COMMIT"
-          echo "Commit Message: $COMMIT_MESSAGE"
-          echo "Bot Token Length: ${#TELEGRAM_BOT_TOKEN}"  # Token length to confirm it's set
-          echo "Chat ID: $TELEGRAM_CHAT_ID"
-
-          # Determine message content based on the event type
           if [ "$GITHUB_EVENT" = "fork" ]; then
-            MESSAGE="🚀 *New Fork Created*\nUser: $GITHUB_ACTOR\nAction: Fork created by $GITHUB_ACTOR!"
+            MESSAGE="🚀 New fork created by ${{ github.actor }}!"
           elif [ "$GITHUB_EVENT" = "pull_request" ] && [ "$PR_ACTION" = "opened" ]; then
-            MESSAGE="🔄 *Pull Request Opened*\nUser: $GITHUB_ACTOR\nAction: New pull request created\n[Link to PR](${{ github.event.pull_request.html_url }})"
+            MESSAGE="🔄 New pull request by ${{ github.actor }}: ${{ github.event.pull_request.html_url }}"
           elif [ "$GITHUB_EVENT" = "pull_request" ] && [ "$PR_ACTION" = "closed" ]; then
             if [ "${{ github.event.pull_request.merged }}" = "true" ]; then
-              MESSAGE="✅ *Pull Request Merged*\nUser: $GITHUB_ACTOR\nAction: Pull request merged\n[Link to PR](${{ github.event.pull_request.html_url }})"
+              MESSAGE="✅ Pull request merged by ${{ github.actor }}: ${{ github.event.pull_request.html_url }}"
             else
-              MESSAGE="❌ *Pull Request Closed*\nUser: $GITHUB_ACTOR\nAction: Pull request closed without merging\n[Link to PR](${{ github.event.pull_request.html_url }})"
+              MESSAGE="❌ Pull request closed by ${{ github.actor }}: ${{ github.event.pull_request.html_url }}"
             fi
           elif [ "$GITHUB_EVENT" = "push" ]; then
-            MESSAGE="🚀 *Code Pushed to Branch*\nUser: $GITHUB_ACTOR\nBranch: $GITHUB_BRANCH\nCommit: $GITHUB_COMMIT\nCommit Message: $COMMIT_MESSAGE\nAction: New code pushed by $GITHUB_ACTOR"
+            MESSAGE="🚀 New code pushed to branch ${{ github.ref_name }} by ${{ github.actor }}."
           elif [ "$GITHUB_EVENT" = "repository_dispatch" ] && [ "$DEPLOYMENT_STATE" = "SUCCEEDED" ]; then
-            MESSAGE="🎉 *Vercel Deployment Succeeded*\nAction: Deployment was successful!"
+            MESSAGE="🎉 Vercel deployment succeeded for the latest update!"
           elif [ "$GITHUB_EVENT" = "repository_dispatch" ] && [ "$DEPLOYMENT_STATE" = "FAILED" ]; then
-            MESSAGE="⚠️ *Vercel Deployment Failed*\nAction: Deployment encountered an error. Check logs for details."
+            MESSAGE="⚠️ Vercel deployment failed. Please check the deployment logs."
           else
-            MESSAGE="ℹ️ *Event Not Recognized*\nUser: $GITHUB_ACTOR\nAction: No recognized action taken."
+            MESSAGE="ℹ️ Event not recognized for notification."
           fi
 
-          # Log the final message for debugging purposes
-          echo "Formatted Message: $MESSAGE"
-
-          # Send the message to Telegram
           curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
                -H "Content-Type: application/json" \
-               -d "{\"chat_id\": \"$TELEGRAM_CHAT_ID\", \"text\": \"$MESSAGE\", \"parse_mode\": \"Markdown\"}"
+               -d "{\"chat_id\": \"$TELEGRAM_CHAT_ID\", \"text\": \"$MESSAGE\"}"
